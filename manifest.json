@@ -1,0 +1,9 @@
+{
+  "manifest_version": 2,
+  "name": "todo",
+  "description": "todo manager",
+  "version": "1.0.0",
+  "browser_action": {
+    "default_popup": "dist/index.html"
+  }
+}
