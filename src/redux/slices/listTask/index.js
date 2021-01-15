@@ -58,6 +58,7 @@ const listTaskSlice = createSlice({
       return state.reduce((acc, item) => {
         if (item.id === id) {
           const curr = { ...item, checked: !item.checked };
+          if (item.checked) return [...acc, curr];
           return [curr, ...acc];
         }
         return [...acc, item];

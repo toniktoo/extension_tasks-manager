@@ -26,11 +26,6 @@ const useStyles = createUseStyles({
 const App = () => {
   const classes = useStyles();
 
-  // React.useEffect(async () => {
-  //   const listsTask = await fetchApi.fetchListsTask();
-  //   console.log(listsTask);
-  // }, []);
-
   return (
     <ThemeProvider theme={theme}>
       <Provider store={configureStore()}>
