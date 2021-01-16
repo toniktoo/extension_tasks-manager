@@ -1,21 +1,14 @@
-import { applyMiddleware, createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import thunkMiddleware from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
 
 import rootReducer from "../reducers";
 
-export default function configureStore() {
-//   const middlewares = [thunkMiddleware];
-//   const middlewareEnhancer = applyMiddleware(...middlewares);
-
-//   const enhancers = [middlewareEnhancer];
-//   const composedEnhancers = composeWithDevTools(...enhancers);
-
-  const store = createStore(rootReducer);
-
-//   if (process.env.NODE_ENV !== "production" && module.hot) {
-//     module.hot.accept("./reducers", () => store.replaceReducer(rootReducer));
-//   }
-
-  return store;
+export default function configureAppStore(preloadedState) {
+  return configureStore({
+    reducer: rootReducer,
+    // eslint-disable-next-line no-shadow
+    middleware: (getDefaultMiddleware) => [...getDefaultMiddleware()],
+    preloadedState,
+  });
 }
+
+export const store = configureAppStore();

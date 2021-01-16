@@ -1,33 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
+import {
+  fetchListTitle,
+  createItemListTitle,
+  toggleItemListTitle,
+  deleteItemListTitle,
+} from "../../thunks/listTitle";
 
-const initialState = [
-  { title: "Активные", active: true },
-  { title: "Завершенные", active: false },
-];
+const initialState = [{ title: "Активные", active: true }];
 
 const listTitleSlice = createSlice({
   name: "listTitle",
   initialState,
-  reducers: {
-    createItemTitle(state, action) {
-      const title = action.payload;
-
-      state.push({ title, active: false });
-    },
-    setActiveItemTitle(state, action) {
-      const index = action.payload;
-      // делаем неактивным item
-      const prevActiveItemIndex = state.findIndex(({ active }) => active);
-      state[prevActiveItemIndex].active = false;
-      // делаем активным item
-      state[index].active = true;
-    },
-    deleteItemTitle(state, action) {
-      const title = action.payload;
-      const _ = state.filter((item) => item.title !== title);
-      _[0] = { title: "Активные", active: true };
-      return _;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchListTitle.fulfilled, (state, { payload }) => {
+      state = payload;
+      return state;
+    });
+    builder.addCase(createItemListTitle.fulfilled, (state, { payload }) => {
+      state = payload;
+      return state;
+    });
+    builder.addCase(toggleItemListTitle.fulfilled, (state, { payload }) => {
+      state = payload;
+      return state;
+    });
+    builder.addCase(deleteItemListTitle.fulfilled, (state, { payload }) => {
+      state = payload;
+      return state;
+    });
   },
 });
 

@@ -4,9 +4,9 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import AddIcon from "@material-ui/icons/Add";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  createItemTitle,
-  setActiveItemTitle,
-} from "../../../../redux/slices/listTitle";
+  createItemListTitle,
+  toggleItemListTitle,
+} from "../../../../redux/thunks/listTitle";
 
 const useStyles = createUseStyles(() => ({
   container: {
@@ -105,12 +105,14 @@ export default function PopupButtons() {
   const handleItemCreate = () => {
     const title = prompt("Введите название нового списка.");
     if (title) {
-      dispatch(createItemTitle(title));
+      // dispatch(createItemTitle(title));
+      dispatch(createItemListTitle({ title }));
     }
   };
 
   const handleItemActive = (index) => {
-    dispatch(setActiveItemTitle(index));
+    // dispatch(setActiveItemTitle(index));
+    dispatch(toggleItemListTitle({ index }));
 
     setIsOpen(false);
   };
@@ -167,4 +169,3 @@ export default function PopupButtons() {
     </>
   );
 }
-

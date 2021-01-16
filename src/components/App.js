@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createUseStyles } from "react-jss";
 import Header from "./header";
 import Main from "./main";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { Provider } from "react-redux";
-import configureStore from "../redux/store";
+import { fetchListTitle } from "../redux/thunks/listTitle";
+import { fetchListTask } from "../redux/thunks/listTask";
+import { useDispatch } from "react-redux";
 
 const theme = createMuiTheme({
   palette: {
@@ -25,15 +26,19 @@ const useStyles = createUseStyles({
 
 const App = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchListTitle());
+    dispatch(fetchListTask());
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
-      <Provider store={configureStore()}>
-        <section className={classes.container}>
-          <Header />
-          <Main />
-        </section>
-      </Provider>
+      <section className={classes.container}>
+        <Header />
+        <Main />
+      </section>
     </ThemeProvider>
   );
 };

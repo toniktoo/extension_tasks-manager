@@ -2,16 +2,17 @@ import React from "react";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import PlayArrow from "@material-ui/icons/PlayArrow";
-import Stop from "@material-ui/icons/Stop";
 import Delete from "@material-ui/icons/Delete";
 import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
-import { createTask, deleteTask } from "../../../../redux/slices/listTask";
-import { deleteItemTitle } from "../../../../redux/slices/listTitle";
+import { deleteItemListTitle } from "../../../../redux/thunks/listTitle";
+import {
+  createItemListTask,
+  deleteItemListTask,
+} from "../../../../redux/thunks/listTask";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {},
 }));
 
@@ -24,7 +25,7 @@ export default function GroupButtons() {
     const { title: titleList } = listTitle.filter(({ active }) => active)[0];
     const value = prompt("Введите название нового задания.");
     if (value) {
-      dispatch(createTask({ title: value, titleList }));
+      dispatch(createItemListTask({ title: value, titleList }));
     }
   };
 
@@ -33,10 +34,10 @@ export default function GroupButtons() {
     const activeList = listTask.filter(({ titleList }) => titleList === title);
 
     if (activeList.length === 0) {
-      dispatch(deleteItemTitle(title));
+      dispatch(deleteItemListTitle({ title }));
       return;
     }
-    dispatch(deleteTask(title));
+    dispatch(deleteItemListTask({ title }));
   };
 
   return (
@@ -54,16 +55,6 @@ export default function GroupButtons() {
         <Button onClick={handleCreateTask}>
           <IconButton>
             <AddIcon />
-          </IconButton>
-        </Button>
-        <Button>
-          <IconButton>
-            <Stop />
-          </IconButton>
-        </Button>
-        <Button>
-          <IconButton>
-            <PlayArrow />
           </IconButton>
         </Button>
       </ButtonGroup>

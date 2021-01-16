@@ -9,26 +9,20 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import CommentIcon from "@material-ui/icons/Comment";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleTaskChecked } from "../../../redux/slices/listTask";
 import CustomTimer from "../../timer";
+import { toggleItemListTask } from "../../../redux/thunks/listTask";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     width: "100%",
     height: "100%",
     minHeight: "200px",
     maxHeight: "200px",
     overflow: "auto",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#424242",
   },
   listItemText: {
     color: "#fff",
-  },
-  timerText: {
-    color: "#f50057",
-    marginRight: "3px",
-    display: "flex",
-    flexDirection: "row",
   },
 }));
 
@@ -38,7 +32,7 @@ const ItemsList = () => {
   const { listTask, listTitle } = useSelector((state) => state);
 
   const handleToggle = (id) => {
-    dispatch(toggleTaskChecked({ id }));
+    dispatch(toggleItemListTask({ id }));
   };
 
   const renderItems = () => {
@@ -69,14 +63,7 @@ const ItemsList = () => {
             primary={title}
             className={classes.listItemText}
           />
-          <>
-            {timer ? (
-              <div className={classes.timerText}>
-                <CustomTimer from={timer.from} />
-                <span> : {Math.ceil(timer.to / 60)}m</span>
-              </div>
-            ) : null}
-          </>
+          <CustomTimer timer={timer} />
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="comments">
               <CommentIcon />

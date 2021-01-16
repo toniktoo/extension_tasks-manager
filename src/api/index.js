@@ -1,28 +1,64 @@
 import axios from "axios";
 
-class FetchApi {
-  constructor() {
-    this.url = "http://localhost:8000";
-  }
+const host = "http://localhost:8000";
 
-  async buildRequest(method, options, data) {
+const arrayQuestions = [
+  // ------------- list Title -------------
+
+  { optionsUrl: "listTitle", nameQuestion: "fetchListTitleApi", method: "get" },
+  {
+    optionsUrl: "listTitle",
+    nameQuestion: "createItemListTitleApi",
+    method: "post",
+  },
+  {
+    optionsUrl: "listTitle",
+    nameQuestion: "toggleItemListTitleApi",
+    method: "put",
+  },
+  {
+    optionsUrl: "listTitle",
+    nameQuestion: "deleteItemListTitleApi",
+    method: "delete",
+  },
+  // ------------- list Task -------------
+  { optionsUrl: "listTask", nameQuestion: "fetchListTaskApi", method: "get" },
+  {
+    optionsUrl: "listTask",
+    nameQuestion: "createItemListTaskApi",
+    method: "post",
+  },
+  {
+    optionsUrl: "listTask",
+    nameQuestion: "toggleItemListTaskApi",
+    method: "put",
+  },
+  {
+    optionsUrl: "listTask",
+    nameQuestion: "deleteItemListTaskApi",
+    method: "delete",
+  },
+];
+
+class FetchApi {
+  static async buildRequest(method, options, data) {
     const res = await axios({
       method,
-      url: `${this.url}/${options}`,
+      url: `${host}/${options}`,
       data,
     });
     return res.data;
   }
-
-  async fetchListTaskNames() {
-    const listTaskNames = await this.buildRequest("get", "listTaskNames");
-    return listTaskNames;
-  }
-
-  async fetchListsTask() {
-    const listsTask = await this.buildRequest("get", "listsTask");
-    return listsTask;
-  }
 }
 
-export default new FetchApi();
+arrayQuestions.forEach((question) => {
+  const { nameQuestion, optionsUrl, method } = question;
+  FetchApi[nameQuestion] = (data) => {
+    if (data) {
+      return FetchApi.buildRequest(method, optionsUrl, data);
+    }
+    return FetchApi.buildRequest(method, optionsUrl);
+  };
+});
+
+export default FetchApi;
